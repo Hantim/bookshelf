@@ -2,6 +2,7 @@
 
 namespace Bookshelf\Controller;
 use Bookshelf\Core\Templater;
+use Bookshelf\Model\User;
 
 /**
  * @author Aleksandr Kolobkov
@@ -87,6 +88,8 @@ class LoginController
            $this->userData['email'] = $_POST['email'];
            $this->userData['password'] = $_POST['password'];
            echo "Welcome {$_POST['email']}";
+           $user = new User('email', 'name');
+           $user->save();
        } else {
            $this->templater->param['loginValue'] = $_POST['email'];
            $this->templater->show($this->controllName, 'RegisterForm', null);

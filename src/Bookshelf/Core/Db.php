@@ -64,6 +64,7 @@ class Db
             $this->statement = $dbConnect->prepare($sql);
             $result = $this->statement->execute($options);
 
+
             if ($result === false) {
                 throw DbException::executionFailed();
             }
@@ -163,6 +164,7 @@ class Db
         $values = implode(', ', $bindArray);
 
         $sql = "INSERT INTO $tableName ($keys) VALUES($values)";
+
         try {
             $this->execute($sql, $optionValues);
         } catch (DbException $e) {
@@ -229,7 +231,6 @@ class Db
         if (!$this->connection) {
             $this->connection = new PDO("pgsql:host=localhost; dbname=$dbName", $dbUser, $dbPassword);
         }
-
         return $this->connection;
     }
 }

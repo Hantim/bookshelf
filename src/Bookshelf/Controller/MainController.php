@@ -2,8 +2,11 @@
 
 namespace Bookshelf\Controller;
 
+use Bookshelf\Core\Db;
 use Bookshelf\Core\Templater;
 use Bookshelf\Core\TemplaterException;
+use Bookshelf\Model\Contancts;
+use Bookshelf\Model\User;
 use Exception;
 /**
  * @author Aleksandr Kolobkov
@@ -45,6 +48,10 @@ class MainController
      */
     public function indexAction()
     {
+        $contacts = new Contancts('Skype', 'trallmall');
+        $contacts->save();
+
+        var_dump($contacts);
         $login = new LoginController();
         $actionName = 'index';
         $param = array(

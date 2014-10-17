@@ -1,0 +1,49 @@
+2014-10-17 13:46:46 	 error 	 Can't create templater in MainController. Reason: exception 'Bookshelf\Core\TemplaterException' with message 'This is not readable' in /home/hantim/hosts/bookshelf/src/Bookshelf/Core/Templater.php:152
+Stack trace:
+#0 /home/hantim/hosts/bookshelf/src/Bookshelf/Core/Templater.php(43): Bookshelf\Core\Templater->checkDir(NULL)
+#1 /home/hantim/hosts/bookshelf/src/Bookshelf/Controller/MainController.php(35): Bookshelf\Core\Templater->__construct()
+#2 /home/hantim/hosts/bookshelf/src/Bookshelf/Core/Router.php(32): Bookshelf\Controller\MainController->__construct()
+#3 /home/hantim/hosts/bookshelf/web/index.php(10): Bookshelf\Core\Router->handleRequest(Array)
+#4 {main} 	  
+2014-10-17 13:48:26 	 error 	 Can't create templater in MainController. Reason: exception 'Bookshelf\Core\TemplaterException' with message 'This is not readable' in /home/hantim/hosts/bookshelf/src/Bookshelf/Core/Templater.php:152
+Stack trace:
+#0 /home/hantim/hosts/bookshelf/src/Bookshelf/Core/Templater.php(43): Bookshelf\Core\Templater->checkDir(NULL)
+#1 /home/hantim/hosts/bookshelf/src/Bookshelf/Controller/MainController.php(35): Bookshelf\Core\Templater->__construct()
+#2 /home/hantim/hosts/bookshelf/src/Bookshelf/Core/Router.php(32): Bookshelf\Controller\MainController->__construct()
+#3 /home/hantim/hosts/bookshelf/web/index.php(10): Bookshelf\Core\Router->handleRequest(Array)
+#4 {main} 	  
+2014-10-17 13:48:27 	 error 	 Can't create templater in MainController. Reason: exception 'Bookshelf\Core\TemplaterException' with message 'This is not readable' in /home/hantim/hosts/bookshelf/src/Bookshelf/Core/Templater.php:152
+Stack trace:
+#0 /home/hantim/hosts/bookshelf/src/Bookshelf/Core/Templater.php(43): Bookshelf\Core\Templater->checkDir(NULL)
+#1 /home/hantim/hosts/bookshelf/src/Bookshelf/Controller/MainController.php(35): Bookshelf\Core\Templater->__construct()
+#2 /home/hantim/hosts/bookshelf/src/Bookshelf/Core/Router.php(32): Bookshelf\Controller\MainController->__construct()
+#3 /home/hantim/hosts/bookshelf/web/index.php(10): Bookshelf\Core\Router->handleRequest(Array)
+#4 {main} 	  
+2014-10-17 13:48:28 	 error 	 Can't create templater in MainController. Reason: exception 'Bookshelf\Core\TemplaterException' with message 'This is not readable' in /home/hantim/hosts/bookshelf/src/Bookshelf/Core/Templater.php:152
+Stack trace:
+#0 /home/hantim/hosts/bookshelf/src/Bookshelf/Core/Templater.php(43): Bookshelf\Core\Templater->checkDir(NULL)
+#1 /home/hantim/hosts/bookshelf/src/Bookshelf/Controller/MainController.php(35): Bookshelf\Core\Templater->__construct()
+#2 /home/hantim/hosts/bookshelf/src/Bookshelf/Core/Router.php(32): Bookshelf\Controller\MainController->__construct()
+#3 /home/hantim/hosts/bookshelf/web/index.php(10): Bookshelf\Core\Router->handleRequest(Array)
+#4 {main} 	  
+2014-10-17 13:48:28 	 error 	 Can't create templater in MainController. Reason: exception 'Bookshelf\Core\TemplaterException' with message 'This is not readable' in /home/hantim/hosts/bookshelf/src/Bookshelf/Core/Templater.php:152
+Stack trace:
+#0 /home/hantim/hosts/bookshelf/src/Bookshelf/Core/Templater.php(43): Bookshelf\Core\Templater->checkDir(NULL)
+#1 /home/hantim/hosts/bookshelf/src/Bookshelf/Controller/MainController.php(35): Bookshelf\Core\Templater->__construct()
+#2 /home/hantim/hosts/bookshelf/src/Bookshelf/Core/Router.php(32): Bookshelf\Controller\MainController->__construct()
+#3 /home/hantim/hosts/bookshelf/web/index.php(10): Bookshelf\Core\Router->handleRequest(Array)
+#4 {main} 	  
+2014-10-17 13:48:28 	 error 	 Can't create templater in MainController. Reason: exception 'Bookshelf\Core\TemplaterException' with message 'This is not readable' in /home/hantim/hosts/bookshelf/src/Bookshelf/Core/Templater.php:152
+Stack trace:
+#0 /home/hantim/hosts/bookshelf/src/Bookshelf/Core/Templater.php(43): Bookshelf\Core\Templater->checkDir(NULL)
+#1 /home/hantim/hosts/bookshelf/src/Bookshelf/Controller/MainController.php(35): Bookshelf\Core\Templater->__construct()
+#2 /home/hantim/hosts/bookshelf/src/Bookshelf/Core/Router.php(32): Bookshelf\Controller\MainController->__construct()
+#3 /home/hantim/hosts/bookshelf/web/index.php(10): Bookshelf\Core\Router->handleRequest(Array)
+#4 {main} 	  
+2014-10-17 13:48:28 	 error 	 Can't create templater in MainController. Reason: exception 'Bookshelf\Core\TemplaterException' with message 'This is not readable' in /home/hantim/hosts/bookshelf/src/Bookshelf/Core/Templater.php:152
+Stack trace:
+#0 /home/hantim/hosts/bookshelf/src/Bookshelf/Core/Templater.php(43): Bookshelf\Core\Templater->checkDir(NULL)
+#1 /home/hantim/hosts/bookshelf/src/Bookshelf/Controller/MainController.php(35): Bookshelf\Core\Templater->__construct()
+#2 /home/hantim/hosts/bookshelf/src/Bookshelf/Core/Router.php(32): Bookshelf\Controller\MainController->__construct()
+#3 /home/hantim/hosts/bookshelf/web/index.php(10): Bookshelf\Core\Router->handleRequest(Array)
+#4 {main} 	  

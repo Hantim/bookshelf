@@ -2,21 +2,14 @@
 
 namespace Bookshelf\Controller;
 use Bookshelf\Core\Templater;
+use Bookshelf\Model\Contacts;
+use Bookshelf\Model\User;
 
 /**
  * @author Aleksandr Kolobkov
  */
 class LoginController
 {
-    /**
-     * @var array temp var for test login function
-     */
-    private $userData = array(
-        'email' => 'Test',
-        'password' => '123',
-        'loginStatus' => null
-    );
-
     /**
      * @var string default name for controller
      */
@@ -46,8 +39,11 @@ class LoginController
      */
     public function loginAction()
     {
-        if($this->checkUsernameAndPassword($_POST['email'], $_POST['password'])) {
-            echo "Welcome back {$_POST['email']}";
+        $user = User::findBy('email', $_POST['email']);
+        if ($user->getEmail() !== '' && $user->getPassword() === $_POST['password']) {
+            $contacts = Contacts::findBy('user_id', $user->getId())->getContactDataForm($user->getId());
+            $this->templater->param = ['contactdata' => $contacts];
+            $this->templater->show('User', 'AccountPage', $user);
         } else {
             echo 'Oops something wrong';
         }
@@ -83,14 +79,18 @@ class LoginController
      */
     public function registerAction()
     {
-       if($this->checkRegistrationPassword($_POST['password'], $_POST['confirm_password'])) {
-           $this->userData['email'] = $_POST['email'];
-           $this->userData['password'] = $_POST['password'];
-           echo "Welcome {$_POST['email']}";
-       } else {
-           $this->templater->param['loginValue'] = $_POST['email'];
-           $this->templater->show($this->controllName, 'RegisterForm', null);
-       }
+        if ($this->verificationData($_POST)) {
+            $user = new User();
+            $user->setEmail($_POST['email']);
+            $user->setFirstName($_POST['firstname']);
+            $user->setLastName($_POST['lastname']);
+            $user->setPassword($_POST['password']);
+            $user->save();
+            echo "Welcome {$user->getFirstName()}";
+        } else {
+            $this->templater->param = ['emailValue' => $_POST['email'], 'firstnameValue' => $_POST['firstname'], 'lastnameValue' => $_POST['lastname']];
+            $this->templater->show($this->controllName, 'RegisterForm', null);
+        }
     }
 
     /**
@@ -100,21 +100,15 @@ class LoginController
      * @param $confirmPassword
      * @return bool
      */
-    private function checkRegistrationPassword($password, $confirmPassword)
+    private function verificationData($array)
     {
-        return ($password !== '' && $confirmPassword !== '' && $password === $confirmPassword);
-    }
-
-    /**
-     * Method that check if this combination of username and password exist in our BD(in future)
-     *
-     * @param $username
-     * @param $password
-     * @return bool
-     */
-    private function checkUsernameAndPassword($username, $password)
-    {
-        return ($username === $this->userData['email'] && $password === $this->userData['password']);
+        return ($array['password'] !== '' &&
+            $array['confirm_password'] !== '' &&
+            $array['firstname'] !=='' &&
+            $array['lastname'] !== '' &&
+            $array['email'] !== '' &&
+            strpos($array['email'], '@') !== false &&
+            substr_count($array['email'], '@') === 1 &&
+            $array['password'] === $array['confirm_password']);
     }
 }
-

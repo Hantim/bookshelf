@@ -14,6 +14,7 @@ class MainController
      * @var string default name for controller
      */
     private $controllName='Main';
+    private $temp = array();
 
     /**
      * @var var for templater instance

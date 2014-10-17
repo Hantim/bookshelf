@@ -40,16 +40,27 @@ class Db
      */
     private $dbPassword;
 
+    private static $instance;
+
     /**
      * @param string $dbName
      * @param string $dbUser
      * @param string $dbPassword
      */
-    public function __construct($dbName, $dbUser, $dbPassword)
+    private function __construct($dbName, $dbUser, $dbPassword)
     {
         $this->dbName = $dbName;
         $this->dbUser = $dbUser;
         $this->dbPassword = $dbPassword;
+    }
+
+    public static function getInstance()
+    {
+        if (empty(self::$instance)) {
+            self::$instance = new Db('', '', '');
+        }
+
+        return self::$instance;
     }
 
     /**
@@ -63,7 +74,6 @@ class Db
             $dbConnect = $this->getConnection($this->dbName, $this->dbUser, $this->dbPassword);
             $this->statement = $dbConnect->prepare($sql);
             $result = $this->statement->execute($options);
-
             if ($result === false) {
                 throw DbException::executionFailed();
             }
@@ -96,6 +106,35 @@ class Db
      * @param $fetchOptions
      * @return array
      */
+    public function fetchBy($tableName, $fetchOptions, $limit = NULL)
+    {
+        if (!$limit) {
+            $limitCondition = '';
+        } else {
+            $limitCondition = ' LIMIT ' . $limit;
+        }
+
+        $optionKeys = array_keys($fetchOptions);
+        $optionValues = array_values($fetchOptions);
+        foreach ($optionKeys as &$value) {
+            $value .= ' = ?';
+        }
+        $condition = implode(' AND ', $optionKeys);
+
+        $sql = "SELECT * FROM $tableName WHERE $condition $limitCondition";
+        try {
+            $this->execute($sql, $optionValues);
+            $result = $this->getStatement()->fetchAll(PDO::FETCH_ASSOC);
+            if ($result === false) {
+                $result = null;
+            }
+        } catch (DbException $e) {
+            $result = null;
+            // to do logger
+        }
+        return $result;
+    }
+
     public function fetchOneBy($tableName, $fetchOptions)
     {
         $optionKeys = array_keys($fetchOptions);
@@ -119,7 +158,6 @@ class Db
 
         return $result;
     }
-
     /**
      * @param string $tableName
      * @param array $deleteOptions
@@ -161,7 +199,6 @@ class Db
         }
         $keys = implode(', ', $optionKeys);
         $values = implode(', ', $bindArray);
-
         $sql = "INSERT INTO $tableName ($keys) VALUES($values)";
         try {
             $this->execute($sql, $optionValues);
@@ -196,7 +233,6 @@ class Db
             $condition = implode(' AND ', $conditionKeys);
             $sql = "UPDATE $tableName SET $values WHERE $condition";
         }
-
         try {
             $valuesArray = array_merge($updateValues, $conditionValues);
             $this->execute($sql, $valuesArray);
@@ -229,7 +265,6 @@ class Db
         if (!$this->connection) {
             $this->connection = new PDO("pgsql:host=localhost; dbname=$dbName", $dbUser, $dbPassword);
         }
-
         return $this->connection;
     }
 }

@@ -80,7 +80,6 @@ class Db
      */
     public function execute($sql, $options = [])
     {
-
         try {
             $dbConnect = $this->getConnection();
             $this->statement = $dbConnect->prepare($sql);
@@ -94,6 +93,7 @@ class Db
             throw DbException::executionFailed();
         }
 
+        return $this->statement;
     }
 
     /**
@@ -121,8 +121,7 @@ class Db
         }
 
         try {
-            $this->execute($sql);
-            $resultArray = $this->getStatement()->fetchAll(PDO::FETCH_ASSOC);
+            $resultArray = $this->execute($sql)->fetchAll(PDO::FETCH_ASSOC);
         } catch (DbException $e){
             $resultArray = [];
             //to do logger
@@ -153,8 +152,7 @@ class Db
 
         $sql = "SELECT * FROM $tableName WHERE $condition $limitCondition";
         try {
-            $this->execute($sql, $optionValues);
-            $result = $this->getStatement()->fetchAll(PDO::FETCH_ASSOC);
+            $result = $this->execute($sql, $optionValues)->fetchAll(PDO::FETCH_ASSOC);
             if ($result === false) {
                 $result = null;
             }
@@ -182,8 +180,7 @@ class Db
 
         $sql = "SELECT * FROM $tableName WHERE $condition LIMIT 1";
         try {
-            $this->execute($sql, $optionValues);
-            $result = $this->getStatement()->fetch(PDO::FETCH_ASSOC);
+            $result = $this->execute($sql, $optionValues)->fetch(PDO::FETCH_ASSOC);
             if ($result === false) {
                 $result = null;
             }
@@ -244,7 +241,7 @@ class Db
         try {
             $this->execute($sql, $optionValues);
 
-            return $this->getStatement()->fetch(PDO::FETCH_ASSOC);
+            return $this->execute($sql, $optionValues)->fetch(PDO::FETCH_ASSOC);
         } catch (DbException $e) {
             throw DbException::insertFailed($tableName, $keys, implode(', ', $optionValues), $e);
         }

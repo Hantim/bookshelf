@@ -81,8 +81,7 @@ class Book extends ActiveRecord
     {
         if (!$this->users) {
             $sql = "SELECT users.* FROM users_to_books INNER JOIN users ON users_to_books.user_id = users.id WHERE users_to_books.book_id = $this->id";
-            Db::getInstance()->execute($sql);
-            $usersData = Db::getInstance()->getStatement()->fetchAll(PDO::FETCH_ASSOC);
+            $usersData = Db::getInstance()->execute($sql)->fetchAll(PDO::FETCH_ASSOC);
             foreach ($usersData as $userData) {
                 $user = new User();
                 $user->initStateFromArray($userData);
@@ -235,8 +234,7 @@ class Book extends ActiveRecord
                     $searchCondition
                     $orderCondition";
 
-        $db->execute($sql, $searchValues);
-        $resultArray = $db->getStatement()->fetchAll(PDO::FETCH_ASSOC);
+        $resultArray = $db->execute($sql, $searchValues)->fetchAll(PDO::FETCH_ASSOC);
 
         $books = array();
         foreach ($resultArray as $result) {

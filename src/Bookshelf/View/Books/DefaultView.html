@@ -31,15 +31,10 @@
                         <?php foreach ($category as $book): ?>
                             <tr>
                                 <td class="col-md-3"><?= $book->getAuthor();?></td>
-                                <td class="col-md-7"><a href="/books/show?id=<?= $book->getId(); ?>"><?= $book->getName(); ?></a></td>
+                                <td class="col-md-7"><a href="/books/show?book_id=<?= $book->getId(); ?>"><?= $book->getName(); ?></a></td>
                                 <td align="center" class="col-md-1">
-                                    <a href="/books/update?id=<?= $book->getId(); ?>" class="btn btn-default">
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                    </a>
-                                </td>
-                                <td align="center" class="col-md-1">
-                                    <a href="/books/delete?id=<?= $book->getId(); ?>" class="btn btn-default">
-                                        <span class="glyphicon glyphicon-trash"></span>
+                                    <a href="/books/show?book_id=<?= $book->getId(); ?>" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-info-sign"></span>
                                     </a>
                                 </td>
                             </tr>

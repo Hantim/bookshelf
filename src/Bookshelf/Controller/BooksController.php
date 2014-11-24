@@ -134,27 +134,34 @@ class BooksController extends Controller
 
     public function showAction()
     {
+        $bookOwner = false;
         if (!$this->getCurrentUser()) {
             $this->redirectTo('/login');
         } else {
-            $book = Book::find($this->request->get('id'));
+            $book = Book::find($this->request->get('book_id'));
             if (!$book) {
                 $this->addErrorMessage('Книга не найдена!');
                 $this->redirectTo('/books');
             }
 
+            $userBooks = $this->getCurrentUser()->getBooks();
+            foreach ($userBooks as $userBook) {
+                if ($userBook->getId() == $book->getId()) {
+                    $bookOwner = true;
+                }
+            }
             $bookId = $book->getId();
             $isRated = false;
             if (Rating::findBy(['book_id' => $bookId, 'user_id' => $this->getCurrentUser()->getId()])) {
                 $isRated = true;
             }
 
-            return $this->templater->show($this->controllerName, 'show',
+            return $this->render($this->controllerName, 'show',
                 [
                     'book' => $book,
                     'errors' => [],
                     'is_rated' => $isRated,
-                    'currentUser' => $this->getCurrentUser()
+                    'book_owner' => $bookOwner
                 ]);
         }
     }

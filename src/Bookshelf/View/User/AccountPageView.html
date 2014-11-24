@@ -46,10 +46,11 @@
                         <tr>
                             <td><?= $book->getName() ?></td>
                             <td><?= $book->getAuthor() ?></td>
-                            <td><?= $book->getDescription() ?></td>
+                            <td><a href="/books/show?book_id=<?= $book->getId()?>"><span class="glyphicon glyphicon-info-sign"></span></a></td>
                             <td><?= $book->getRating() ?></td>
                             <td><?= $book->getCategory()->getName() ?></td>
                             <td><a href="<?= $book->getLink() ?>"><span class="glyphicon glyphicon-link"></span></a></td>
+                            <td><a href="/user/delete-book?book_id=<?= $book->getId()?>"><span class="glyphicon glyphicon-trash"></span></a> </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

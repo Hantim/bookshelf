@@ -262,8 +262,7 @@ class User extends ActiveRecord
     private function fetchBooks()
     {
         $sql = "SELECT books.* FROM users_to_books INNER JOIN books ON users_to_books.book_id = books.id WHERE users_to_books.user_id = $this->id";
-        Db::getInstance()->execute($sql);
-        $booksData = Db::getInstance()->getStatement()->fetchAll(PDO::FETCH_ASSOC);
+        $booksData = Db::getInstance()->execute($sql)->fetchAll(PDO::FETCH_ASSOC);
         foreach ($booksData as $bookData) {
             $book = new Book;
             $book->initStateFromArray($bookData);

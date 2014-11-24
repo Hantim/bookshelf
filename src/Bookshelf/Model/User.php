@@ -219,6 +219,21 @@ class User extends ActiveRecord
     }
 
     /**
+     * @param ActiveRecord $book
+     * @return bool
+     */
+    public function userHasBook(ActiveRecord $book)
+    {
+        foreach ($this->getBooks() as $bookFromUser) {
+            if ($bookFromUser->getId() == $book->getId()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Return all property for user
      *
      * @return array

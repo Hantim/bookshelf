@@ -134,7 +134,6 @@ class BooksController extends Controller
 
     public function showAction()
     {
-        $bookOwner = false;
         if (!$this->getCurrentUser()) {
             $this->redirectTo('/login');
         } else {
@@ -144,12 +143,7 @@ class BooksController extends Controller
                 $this->redirectTo('/books');
             }
 
-            $bookUsers = $book->getUsers();
-            foreach ($bookUsers as $bookUser) {
-                if ($bookUser == $this->getCurrentUser()) {
-                    $bookOwner = true;
-                }
-            }
+            $bookOwner = $this->getCurrentUser()->userHasBook($book);
 
             $bookId = $book->getId();
             $isRated = false;

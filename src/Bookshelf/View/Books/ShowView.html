@@ -33,7 +33,7 @@
         <?php endforeach; ?>
 
         <?php if ($params['currentUser']): ?>
-            <?php if (isset($params['book_owner']) && $params['book_owner'] === true): ?>
+            <?php if ($params['book_owner'] === true): ?>
                 <a href="/books/update?book_id=<?php echo $params['book']->getId(); ?>" class="btn btn-default">
                     Редактировать данные книги
                 </a>

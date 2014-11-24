@@ -184,6 +184,7 @@ class BooksController extends Controller
         $book->setCategory($this->request->get('category_id'));
         $book->setDescription($this->request->get('description'));
         $book->setLink($this->request->get('link'));
+        $book->setPathToImage($this->imageUpload());
 
         return $this->validate($book);
     }
@@ -224,5 +225,42 @@ class BooksController extends Controller
         }
 
         return $availableTags;
+    }
+
+    private function imageUpload()
+    {
+        $dirForUpload = "../web/upload/";
+        $image = $dirForUpload . basename($_FILES["fileToUpload"]["name"]);
+        $imageFileType = pathinfo($image, PATHINFO_EXTENSION);
+
+        $submit = $this->request->get('submit');
+        if (isset($submit)) {
+            $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+            if (!$check) {
+                $this->addErrorMessage("Файл не является изображением");
+            }
+        }
+
+        if (file_exists($image)) {
+            $this->addErrorMessage("Простите такой файл уже существует");
+        }
+
+        if ($_FILES["fileToUpload"]["size"] > 500000) {
+            $this->addErrorMessage("Файл слишком большого размера");
+        }
+
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif")
+        {
+            $this->addErrorMessage("Простите, но только JPG, JPEG, PNG и GIF форматы разрешены.");
+        }
+
+        if (!isset($this->session->get('flashMessages')['danger'])) {
+            if (!move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $image)) {
+                $this->addErrorMessage("Простите, произошла ошибка при загрузке файла.");
+            } else {
+                return '../upload/' . basename($_FILES["fileToUpload"]["name"]);
+            }
+        }
+        $this->redirectTo('/books/add');
     }
 }

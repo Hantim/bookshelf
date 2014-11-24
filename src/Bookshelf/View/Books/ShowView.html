@@ -7,6 +7,10 @@
         <p><span class="book-name"><?= $params['book']->getName() ?></span></p>
         <p><span class="book-author">Автор: <?= $params['book']->getAuthor() ?></span></p>
     </div>
+    <div class="row">
+        <div class="col-md-4">
+            <img src="<?= $params['book']->getPathToImage()?>" width="90%">
+        </div>
     <div class="col-md-6">
         <p><b>Категория: <?= $params['book']->getCategory()->getName() ?></b> </p>
         <p><b>Рейтинг: <?= $params['book']->getRating() ?></span> </b>
@@ -31,6 +35,7 @@
         <?php foreach ($params['book']->getUsers() as $user): ?>
             <p><span style="font-size: medium"><?php printf("%s %s ", $user->getFirstName(), $user->getLastName()) ?></span></p>
         <?php endforeach; ?>
+    </div>
     </div>
 </div>
 

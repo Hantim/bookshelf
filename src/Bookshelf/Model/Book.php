@@ -56,6 +56,11 @@ class Book extends ActiveRecord
     public $ratingValues = [0, 1, 2, 3, 4, 5];
 
     /**
+     * @var string
+     */
+    public $pathToImage;
+
+    /**
      * @return Category
      */
     public function getCategory()
@@ -91,6 +96,22 @@ class Book extends ActiveRecord
         }
 
         return $this->users;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPathToImage()
+    {
+        return $this->pathToImage;
+    }
+
+    /**
+     * @param string $pathToImage
+     */
+    public function setPathToImage($pathToImage)
+    {
+        $this->pathToImage = $pathToImage;
     }
 
     /**
@@ -229,7 +250,7 @@ class Book extends ActiveRecord
 
         $sql = "SELECT
                     b.id, b.category_id, b.name, b.description, b.rating, b.link,
-                    b.owner_id, b.author, c.name as category_name
+                    b.path_to_image, b.author, c.name as category_name
                 FROM $tableBooks as b
                     JOIN $tableCategories as c ON (c.id = b.category_id)
                     $searchCondition
@@ -316,7 +337,8 @@ class Book extends ActiveRecord
             'name' => $this->name,
             'description' => $this->description,
             'link' => $this->link,
-            'author' => $this->author
+            'author' => $this->author,
+            'path_to_image' => $this->pathToImage
         ];
     }
 
@@ -333,6 +355,7 @@ class Book extends ActiveRecord
         $this->rating = $array['rating'];
         $this->link = $array['link'];
         $this->author = $array['author'];
+        $this->pathToImage = $array['path_to_image'];
         $this->id = $array['id'];
         $this->category = Category::find($array['category_id']);
     }

@@ -144,12 +144,13 @@ class BooksController extends Controller
                 $this->redirectTo('/books');
             }
 
-            $userBooks = $this->getCurrentUser()->getBooks();
-            foreach ($userBooks as $userBook) {
-                if ($userBook->getId() == $book->getId()) {
+            $bookUsers = $book->getUsers();
+            foreach ($bookUsers as $bookUser) {
+                if ($bookUser == $this->getCurrentUser()) {
                     $bookOwner = true;
                 }
             }
+
             $bookId = $book->getId();
             $isRated = false;
             if (Rating::findBy(['book_id' => $bookId, 'user_id' => $this->getCurrentUser()->getId()])) {

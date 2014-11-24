@@ -76,7 +76,7 @@ class Db
      * @param string $sql
      * @param array $options
      * @throws DbException
-     * @return array
+     * @return PDOStatement
      */
     public function execute($sql, $options = [])
     {

@@ -2,7 +2,7 @@
 
 namespace Bookshelf\Controller;
 
-use Bookshelf\Model\User;
+use Bookshelf\Core\Exception\DbException;
 use Bookshelf\Model\Contact;
 use Bookshelf\Core\Validation\Constraint\EmailConstraint;
 use Bookshelf\Core\Validation\Constraint\NotBlankConstraint;
@@ -28,8 +28,13 @@ class ContactsController extends Controller
                 try {
                     $contact = $user->createContact($this->request->get('contact_type'), $this->request->get('value'));
                     if (!$errors) {
-                        $contact->save();
-                        $this->redirectTo("/user/show/?id=" . $contact->getUser()->getId());
+                        try {
+                            $contact->save();
+                            $this->addSuccessMessage('Контакт успешно добавлен!');
+                            $this->redirectTo("/user/show/?id=" . $contact->getUser()->getId());
+                        } catch (DbException $e) {
+                            $this->logAndDisplayError($e, 'Ошибка добавления контакта!');
+                        }
                     }
                     $errors = $this->checkDataByContactType($contact);
                 } catch (InvalidArgumentException $e) {
@@ -79,8 +84,13 @@ class ContactsController extends Controller
 
                 $errors = $this->checkDataByContactType($contact);
                 if (!$errors) {
-                    $contact->save();
-                    $this->redirectTo("/user/show/?id=" . $contact->getUser()->getId());
+                    try {
+                        $contact->save();
+                        $this->addSuccessMessage('Информация успешно обновлена!');
+                        $this->redirectTo("/user/show/?id=" . $contact->getUser()->getId());
+                    } catch (DbException $e) {
+                        $this->logAndDisplayError($e, 'Ошибка изменения контакта!');
+                    }
                 }
             }
         }
@@ -99,8 +109,14 @@ class ContactsController extends Controller
         $contacts = $currentUser->getContacts();
         foreach ($contacts as $contact) {
             if ($id == $contact->getId()) {
-                $contact->delete();
-                $this->redirectTo("/user/show/?id=" . $contact->getUser()->getId());
+                try {
+                    $contact->delete();
+                    $this->addSuccessMessage('Контакт успешно удалён!');
+                    $this->redirectTo("/user/show/?id=" . $contact->getUser()->getId());
+                } catch (DbException $e) {
+                    $this->logAndDisplayError($e, 'Ошибка удаления контакта!');
+
+                }
             }
         }
         $errors['contact'] = 'Немогу удалить несуществующий контакт';

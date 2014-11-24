@@ -5,6 +5,7 @@
 
 namespace Bookshelf\Controller;
 
+use Bookshelf\Core\Exception\DbException;
 use Bookshelf\Core\Validation\Constraint\EntityExistsConstraint;
 use Bookshelf\Core\Validation\Constraint\LinkConstraint;
 use Bookshelf\Core\Validation\Constraint\NotBlankConstraint;
@@ -65,9 +66,12 @@ class BooksController extends Controller
         if ($this->request->isPost()) {
             $errors = $this->fillAndValidate($book);
             if (!$errors) {
-                $book->save();
-                $user = $this->getCurrentUser();
-                $user->attachBook($book);
+                try {
+                    $book->save();
+                    $this->addSuccessMessage('Книга успешно добавлена!');
+                } catch (DbException $e) {
+                    $this->logAndDisplayError($e, 'Ошибка добавления книги!');
+                }
                 $this->redirectTo('/books');
             }
         }
@@ -92,9 +96,12 @@ class BooksController extends Controller
                 $errors = $this->fillAndValidate($book);
 
                 if (!$errors) {
-                    $book->save();
-                    $this->addSuccessMessage('Книга успешно отредактирована!');
-
+                    try {
+                        $book->save();
+                        $this->addSuccessMessage('Книга успешно отредактирована!');
+                    } catch (DbException $e) {
+                        $this->logAndDisplayError($e, 'Ошибка редактирования книги!');
+                    }
                     $this->redirectTo('/books');
                 }
             }
@@ -114,8 +121,12 @@ class BooksController extends Controller
         if (!$book) {
             $this->addErrorMessage('Удаляемая книга не найдена!');
         } else {
-            $book->delete();
-            $this->addSuccessMessage('Книга успешно удалена!');
+            try {
+                $book->delete();
+                $this->addSuccessMessage('Книга успешно удалена!');
+            } catch (DbException $e) {
+                $this->logAndDisplayError($e, 'Ошибка удаления книги!');
+            }
         }
 
         $this->redirectTo('/books');
@@ -166,8 +177,12 @@ class BooksController extends Controller
         $errors = $validator->validate();
 
         if (!$errors) {
-            $rating->save();
-            $this->redirectTo('/books/show?id=' . $book->getId());
+            try {
+                $rating->save();
+                $this->redirectTo('/books/show?id=' . $book->getId());
+            } catch (DbException $e) {
+                $this->logAndDisplayError($e, 'Ошибка добавления рейтинга!');
+            }
         }
 
         return $this->templater->show($this->controllerName, 'show', ['book' => $book, 'errors' => $errors]);
